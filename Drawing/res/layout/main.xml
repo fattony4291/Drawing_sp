@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
+
+    <SurfaceView
+        android:id="@+id/surfaceView1"
+        android:layout_width="match_parent"
+        android:layout_height="489dp" />
+
+    <LinearLayout
+        style="@android:style/ButtonBar"
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|fill_horizontal"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btnSave"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Save"
+            android:src="@drawable/save" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Delete"
+            android:src="@android:drawable/ic_menu_delete" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnPicture"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Picture"
+            android:src="@android:drawable/ic_menu_camera" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <RadioGroup
+            android:id="@+id/rgModeSelector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            
+            <RadioButton
+                android:id="@+id/rSquiggle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                
+                android:button="@drawable/squiggle_selector" />
+
+            <RadioButton
+                android:id="@+id/rText"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:button="@drawable/text_selector" />
+
+            <RadioButton
+                android:id="@+id/rShapes"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:checked="true"
+                android:button="@drawable/shapes_selector" />
+
+            <RadioButton
+                android:id="@+id/rEraser"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:button="@drawable/eraser_selector" />
+
+            <RadioButton
+                android:id="@+id/rScroll"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:button="@drawable/scroll_selector" />
+            
+        </RadioGroup>
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnColor"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@color/orange" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <RadioGroup
+            android:id="@+id/rgSizeSelector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            
+            <RadioButton
+                android:id="@+id/rSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:button="@drawable/fine_selector" />
+
+            <RadioButton
+                android:id="@+id/rMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/medium_selector" />
+
+            <RadioButton
+                android:id="@+id/rLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/thick_selector" />
+            
+        </RadioGroup>
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnGrid"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Grid"
+            android:src="@drawable/grid" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Previous"
+            android:src="@drawable/previous" />
+        
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Add"
+            android:src="@android:drawable/ic_menu_add" />
+        
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Next"
+            android:src="@drawable/next" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        <ImageButton
+            android:id="@+id/btnUndo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Undo"
+            android:src="@drawable/undo" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnRedo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Redo"
+            android:src="@drawable/redo" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnHome"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Home"
+            android:src="@drawable/home" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnConnection"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Connection"
+            android:src="@drawable/connect" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        
+        <ImageButton
+            android:id="@+id/btnHelp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/buttonbg"
+            android:contentDescription="@string/Help"
+            android:src="@drawable/help" />
+        
+        
+    </LinearLayout>
+
+</LinearLayout>

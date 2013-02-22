@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, DrawingActivity!</string>
+    <string name="app_name">Drawing</string>
+    <string name="Test">Test String</string>
+    <string name="Sm">Sm</string>
+    <string name="Med">Med</string>
+    <string name="Lg">Lg</string>
+    <string name="Save">Button to save an image.</string>
+    <string name="Delete">Delete a page.</string>
+    <string name="Picture">Add a picture to the page.</string>
+	<string name="Grid">Add a grid to the page.</string>
+	<string name="Undo">Undo previous darwing</string>
+	<string name="Redo">Redo previous darwing</string>
+	<string name="Home">Recent scrolling back to initial location</string>
+	<string name="Connection">Open connection settings</string>
+	<string name="Help">Click for help</string>
+	<string name="Previous">Goto the previous page</string>
+	<string name="Next">Goto the next page</string>
+	<string name="Add">Add a page.</string>
+</resources>
