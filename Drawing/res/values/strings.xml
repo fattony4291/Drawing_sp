@@ -19,4 +19,5 @@
 	<string name="Previous">Goto the previous page</string>
 	<string name="Next">Goto the next page</string>
 	<string name="Add">Add a page.</string>
+	<string name="Color">Click to select a new drawing color.</string>
 </resources>

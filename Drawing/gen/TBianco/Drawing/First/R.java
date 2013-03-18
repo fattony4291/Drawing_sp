@@ -96,6 +96,7 @@ public final class R {
         public static final int btnRedo=0x7f060015;
         public static final int btnSave=0x7f060002;
         public static final int btnUndo=0x7f060014;
+        public static final int drawingArea=0x7f060000;
         public static final int rEraser=0x7f060009;
         public static final int rLarge=0x7f06000f;
         public static final int rMedium=0x7f06000e;
@@ -106,13 +107,13 @@ public final class R {
         public static final int rText=0x7f060007;
         public static final int rgModeSelector=0x7f060005;
         public static final int rgSizeSelector=0x7f06000c;
-        public static final int surfaceView1=0x7f060000;
     }
     public static final class layout {
         public static final int main=0x7f030000;
     }
     public static final class string {
         public static final int Add=0x7f050011;
+        public static final int Color=0x7f050012;
         public static final int Connection=0x7f05000d;
         public static final int Delete=0x7f050007;
         public static final int Grid=0x7f050009;
@@ -131,4 +132,11 @@ public final class R {
         public static final int app_name=0x7f050001;
         public static final int hello=0x7f050000;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a MySurface.
+         */
+        public static final int[] MySurface = {
+            
+        };
+    };
 }
