@@ -8,17 +8,18 @@
     <TBianco.Drawing.First.MySurface
         android:id="@+id/drawingArea"
         android:layout_width="match_parent"
-        android:layout_height="489dp" />
+        android:layout_height="425dp" />
 
     <LinearLayout
         style="@android:style/ButtonBar"
         android:id="@+id/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|fill_horizontal"
+        android:gravity="center_vertical|fill_horizontal" 
         android:orientation="horizontal" >
-
-        <ImageButton
+        
+        
+                <ImageButton
             android:id="@+id/btnSave"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -178,7 +179,8 @@
         
         <Space
             android:layout_width="5dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" />
+             
         <ImageButton
             android:id="@+id/btnUndo"
             android:layout_width="32dp"
@@ -237,5 +239,6 @@
         
         
     </LinearLayout>
-
+
+
 </LinearLayout>

@@ -133,9 +133,9 @@ public final class R {
         public static final int hello=0x7f050000;
     }
     public static final class styleable {
-        /** Attributes that can be used with a MySurface.
+        /** Attributes that can be used with a MyView.
          */
-        public static final int[] MySurface = {
+        public static final int[] MyView = {
             
         };
     };
