@@ -20,4 +20,5 @@
 	<string name="Next">Goto the next page</string>
 	<string name="Add">Add a page.</string>
 	<string name="Color">Click to select a new drawing color.</string>
+	<string name="AppName">DrawingApp</string>
 </resources>
