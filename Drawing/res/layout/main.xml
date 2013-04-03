@@ -167,7 +167,8 @@
             android:layout_height="32dp"
             android:background="@drawable/buttonbg"
             android:contentDescription="@string/Previous"
-            android:src="@drawable/previous" />
+            android:src="@drawable/previous"
+            android:onClick="previousClick" />
 
         <ImageButton
             android:id="@+id/btnAdd"
@@ -175,7 +176,8 @@
             android:layout_height="32dp"
             android:background="@drawable/buttonbg"
             android:contentDescription="@string/Add"
-            android:src="@android:drawable/ic_menu_add" />
+            android:src="@android:drawable/ic_menu_add"
+            android:onClick="newClick" />
 
         <ImageButton
             android:id="@+id/btnNext"
@@ -183,7 +185,8 @@
             android:layout_height="32dp"
             android:background="@drawable/buttonbg"
             android:contentDescription="@string/Next"
-            android:src="@drawable/next" />
+            android:src="@drawable/next"
+            android:onClick="nextClick" />
 
         <Space
             android:layout_width="5dp"
@@ -247,6 +250,29 @@
             android:background="@drawable/buttonbg"
             android:contentDescription="@string/Help"
             android:src="@drawable/help" />
+        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/relativeview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            
+        <TextView
+            android:id="@+id/pageTracker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/pages"
+            android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="@string/pagecounter" />
+        </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>

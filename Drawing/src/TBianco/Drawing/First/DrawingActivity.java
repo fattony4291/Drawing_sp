@@ -1,5 +1,8 @@
 package TBianco.Drawing.First;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,14 +16,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 
 
 public class DrawingActivity extends Activity {
-	
-	//private SurfaceView surfaceView;
-    //private SurfaceHolder surfaceHolder;
-	
+
+	private MySurface drawingArea;
+    private Connection connection;
+    private TextView pageTracker;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,19 @@ public class DrawingActivity extends Activity {
         
         setContentView(R.layout.main);
         drawingArea = (MySurface)findViewById(R.id.drawingArea);
+        pageTracker = (TextView) findViewById(R.id.pageTracker);
+        /*try {
+			connection = new Connection();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
     }
     
-    private MySurface drawingArea;
+   
    
     private void changeColor(int newColor)
     {
@@ -113,6 +128,27 @@ public class DrawingActivity extends Activity {
     	drawingArea.resetTranslate();
     }
     
+    public void previousClick(View view)
+    {
+    	drawingArea.previousPage();
+    	updatePageTracker();
+    }
+    
+    public void nextClick(View view)
+    {
+    	drawingArea.nextPage();
+    	updatePageTracker();
+    }
+    
+    public void newClick(View view)
+    {
+    	drawingArea.addPage();
+    	updatePageTracker();
+    }
 
+    private void updatePageTracker()
+    {
+    	pageTracker.setText(drawingArea.currentPageCount + 1 + "/" + drawingArea.pageCount);
+    }
 }
 

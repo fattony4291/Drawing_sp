@@ -19,7 +19,7 @@ public class MySurface extends View {
 
 	private Path mPath;
 	private Paint mPaint;
-	private List<Line> lineList;
+	private List<ArrayList<Line>> pageList;
 	private Deque<Line> undoStack;
 	private int count;
 	private int currentColor = 0xFF000000;
@@ -28,9 +28,11 @@ public class MySurface extends View {
 	private float dy = 0;
 	private boolean redoable = false;
 	private Mode currentMode = Mode.DRAW_MODE;
+	private ArrayList<Line> currentPage;
+	
 	
 	public int pageCount = 1;
-	public int currentPage = 1;
+	public int currentPageCount = 0;
 	
 
 	public MySurface(Context c) {
@@ -53,7 +55,9 @@ public class MySurface extends View {
 
 	private void init() {
 		mPath = new Path();
-		lineList = new ArrayList<Line>();
+		pageList = new ArrayList<ArrayList<Line>>();
+		pageList.add( new ArrayList<Line>());
+		currentPage=pageList.get(currentPageCount);
 		undoStack = new LinkedList<Line>();
 		count = 0;
 		mPaint = new Paint();
@@ -89,7 +93,7 @@ public class MySurface extends View {
 		// canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 		canvas.translate(dx, dy);
 
-		for (Line x : lineList) {
+		for (Line x : currentPage) {
 			x.drawLine(canvas, mPaint);
 			resetPaint();
 		}
@@ -124,7 +128,7 @@ public class MySurface extends View {
 		// mCanvas.drawPath(mPath, mPaint);
 		// kill this so we don't double draw
 		// mPath.reset();
-		lineList.add(new Line(currentSize, currentColor, new Path(mPath),currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE:LineType.TYPE_SOLID));
+		currentPage.add(new Line(currentSize, currentColor, new Path(mPath),currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE:LineType.TYPE_SOLID));
 		mPath.reset();
 	}
 
@@ -162,14 +166,14 @@ public class MySurface extends View {
 	}
 
 	public void delete() {
-		lineList.clear();
+		currentPage.clear();
 		invalidate();
 	}
 
 	public void undo() {
-		if (!lineList.isEmpty()) {
-			undoStack.addFirst(lineList.get(lineList.size() - 1));
-			lineList.remove(lineList.size() - 1);
+		if (!currentPage.isEmpty()) {
+			undoStack.addFirst(currentPage.get(currentPage.size() - 1));
+			currentPage.remove(currentPage.size() - 1);
 			redoable = true;
 			invalidate();
 		}
@@ -177,7 +181,7 @@ public class MySurface extends View {
 
 	public void redo() {
 		if (redoable && !undoStack.isEmpty()) {
-			lineList.add(undoStack.removeFirst());
+			currentPage.add(undoStack.removeFirst());
 			invalidate();
 		}
 	}
@@ -200,6 +204,53 @@ public class MySurface extends View {
 		{
 			mPaint.setXfermode(null);
 		}
+	}
+	
+	public void previousPage()
+	{
+		if(currentPageCount > 0)
+			currentPageCount--;
+			
+		if (redoable) {
+			redoable = false;
+			undoStack.clear();
+		}
+		
+		currentPage = pageList.get(currentPageCount);
+
+		invalidate();
+	}
+	
+	public void nextPage()
+	{
+		if(currentPageCount < pageCount -1)
+			currentPageCount++;
+		
+		if (redoable) {
+			redoable = false;
+			undoStack.clear();
+		}
+		
+		currentPage = pageList.get(currentPageCount);
+
+		invalidate();
+	}
+	
+	public void addPage()
+	{
+		pageCount++;
+		currentPageCount = pageCount - 1;
+		
+		pageList.add(new ArrayList<Line>());
+		
+		if (redoable) {
+			redoable = false;
+			undoStack.clear();
+		}
+		
+		currentPage = pageList.get(currentPageCount);
+		
+		invalidate();
 	}
 
 }

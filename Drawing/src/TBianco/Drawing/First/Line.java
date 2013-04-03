@@ -50,8 +50,9 @@ public class Line {
 	{
 		
 		if (type == LineType.TYPE_ERASE){
-			paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+			//paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 			//Log.d("Erase.", "Set erase style");
+			paint.setColor(Color.WHITE);
 		}
 		else {
 		paint.setColor(color);

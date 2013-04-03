@@ -21,4 +21,6 @@
 	<string name="Add">Add a page.</string>
 	<string name="Color">Click to select a new drawing color.</string>
 	<string name="AppName">DrawingApp</string>
+	<string name="pagecounter">1/1</string>
+	<string name="pages">Displays the current page and number of pages.</string>
 </resources>

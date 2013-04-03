@@ -12,6 +12,7 @@ public final class R {
     }
     public static final class color {
         public static final int orange=0x7f040000;
+        public static final int white=0x7f040001;
     }
     public static final class drawable {
         public static final int bevel_down=0x7f020000;
@@ -97,6 +98,7 @@ public final class R {
         public static final int btnSave=0x7f060002;
         public static final int btnUndo=0x7f060014;
         public static final int drawingArea=0x7f060000;
+        public static final int pageTracker=0x7f06001a;
         public static final int rDraw=0x7f060006;
         public static final int rErase=0x7f060009;
         public static final int rLarge=0x7f06000f;
@@ -105,6 +107,7 @@ public final class R {
         public static final int rShapes=0x7f060008;
         public static final int rSmall=0x7f06000d;
         public static final int rText=0x7f060007;
+        public static final int relativeview=0x7f060019;
         public static final int rgModeSelector=0x7f060005;
         public static final int rgSizeSelector=0x7f06000c;
     }
@@ -132,6 +135,8 @@ public final class R {
         public static final int Undo=0x7f05000a;
         public static final int app_name=0x7f050001;
         public static final int hello=0x7f050000;
+        public static final int pagecounter=0x7f050014;
+        public static final int pages=0x7f050015;
     }
     public static final class styleable {
         /** Attributes that can be used with a MyView.
