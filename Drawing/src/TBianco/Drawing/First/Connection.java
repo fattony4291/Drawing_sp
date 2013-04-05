@@ -1,34 +1,87 @@
 package TBianco.Drawing.First;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Connection {
+import android.os.AsyncTask;
+import android.util.Log;
+
+public class Connection extends AsyncTask<Void, Void, Void> implements Runnable {
 	
 	Socket socket;
-	ObjectOutputStream out;
-	ObjectInputStream in;
-	boolean connected = false;
+	BufferedOutputStream out;
+	BufferedInputStream in;
+	boolean connected;
+	int destSoc = 9200;
+	String address = "mirror.etown.edu";
 	
-	Connection() throws UnknownHostException, IOException {
-		socket = new Socket("mirror.etown.edu",9200);
-		
-		out = new ObjectOutputStream(socket.getOutputStream());
-		in = new ObjectInputStream(socket.getInputStream());
-		connected = true;
+	Connection(){
+		connected = false;
 	}
 	
 	public void write(Object send){
 		try {
-			out.writeObject(send);
+			out = new BufferedOutputStream(socket.getOutputStream());
+		} catch (IOException e1) {
+			Log.d("Network Error", "IOException on output stream create");
+			e1.printStackTrace();
+		}
+		
+		try {
+			//out.writeObject(send);
+			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.d("Network Error", "IOException on output stream send");
 			e.printStackTrace();
 		}
 		
+		
+	}
+
+	@Override
+	public void run() {
+		try {
+			socket = new Socket(address,destSoc);
+			
+			connected = true;
+		} catch (UnknownHostException e) {
+			Log.d("Network Error", "Unknown host.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.d("Network Error", "IOException on connect");
+			e.printStackTrace();
+		}
+		
+		try {
+				in = new BufferedInputStream(socket.getInputStream());
+			} catch (IOException e) {
+				Log.d("Network Error", "IOException on input stream create");
+				e.printStackTrace();
+			}
+		
+		while(true)
+		{
+			try {
+				Object o = in.readObject();
+			} catch (OptionalDataException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+
+	@Override
+	protected Void doInBackground(Void... params) {
+		run();
+		return null;
 	}
 
 }

@@ -39,15 +39,9 @@ public class DrawingActivity extends Activity {
         setContentView(R.layout.main);
         drawingArea = (MySurface)findViewById(R.id.drawingArea);
         pageTracker = (TextView) findViewById(R.id.pageTracker);
-        /*try {
-			connection = new Connection();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+        
+		connection = new Connection();
+		
     }
     
    
@@ -121,6 +115,11 @@ public class DrawingActivity extends Activity {
     	            break;
     	            
     	}	
+    }
+    
+    public void connectClick(View view)
+    {
+    	connection.execute();
     }
     
     public void homeClick(View view)

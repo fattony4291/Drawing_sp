@@ -237,7 +237,8 @@
             android:layout_height="32dp"
             android:background="@drawable/buttonbg"
             android:contentDescription="@string/Connection"
-            android:src="@drawable/connect" />
+            android:src="@drawable/connect"
+            android:onClick="connectClick" />
 
         <Space
             android:layout_width="5dp"

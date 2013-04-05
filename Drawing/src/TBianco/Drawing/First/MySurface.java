@@ -104,32 +104,48 @@ public class MySurface extends View {
 
 	private float mX, mY;
 	private static final float TOUCH_TOLERANCE = 4;
+	private float previousX,previousY;
 
 	private void touch_start(float x, float y) {
 		mPath.reset();
-		mPath.moveTo(x + dx, y + dy);
-		mX = x + dx;
-		mY = y + dy;
+		mPath.moveTo(x - dx, y - dy);
+		mX = x - dx;
+		mY = y - dy;
 	}
 
 	private void touch_move(float x, float y) {
-		float dxt = Math.abs(x + dx - mX);
-		float dyt = Math.abs(y + dy - mY);
+		float dxt = Math.abs(x - dx - mX);
+		float dyt = Math.abs(y - dy - mY);
 		if (dxt >= TOUCH_TOLERANCE || dyt >= TOUCH_TOLERANCE) {
-			mPath.quadTo(mX, mY, (x + dx + mX) / 2, (y + dy + mY) / 2);
-			mX = x + dx;
-			mY = y + dy;
+			mPath.quadTo(mX, mY, (x - dx + mX) / 2, (y - dy + mY) / 2);
+			mX = x - dx;
+			mY = y - dy;
 		}
 	}
 
 	private void touch_up() {
-		mPath.lineTo(mX + dx, mY + dy);
+		mPath.lineTo(mX, mY);
 		// commit the path to our offscreen
 		// mCanvas.drawPath(mPath, mPaint);
 		// kill this so we don't double draw
 		// mPath.reset();
 		currentPage.add(new Line(currentSize, currentColor, new Path(mPath),currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE:LineType.TYPE_SOLID));
 		mPath.reset();
+	}
+	
+	private void scroll_start(float x, float y)
+	{
+		previousX = x;
+		previousY = y;
+	}
+	
+	private void scroll_move(float x, float y)
+	{
+		dx += x - previousX;
+		dy += y - previousY;
+		
+		previousX = x;
+		previousY = y;
 	}
 
 	@Override
@@ -144,15 +160,24 @@ public class MySurface extends View {
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			touch_start(x, y);
+			if(currentMode == Mode.DRAW_MODE)
+				touch_start(x, y);
+			else if(currentMode == Mode.SCROLL_MODE)
+				scroll_start(x,y);
 			invalidate();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			touch_move(x, y);
+			if(currentMode == Mode.DRAW_MODE)
+				touch_move(x, y);
+			else if(currentMode == Mode.SCROLL_MODE)
+				scroll_move(x,y);
 			invalidate();
 			break;
 		case MotionEvent.ACTION_UP:
-			touch_up();
+			if(currentMode == Mode.DRAW_MODE)
+				touch_up();
+			else if(currentMode == Mode.SCROLL_MODE)
+				scroll_move(x,y);
 			invalidate();
 			break;
 		}
