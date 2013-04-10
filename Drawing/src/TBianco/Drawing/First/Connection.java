@@ -12,12 +12,21 @@ import android.util.Log;
 
 public class Connection extends AsyncTask<Void, Void, Void> implements Runnable {
 	
-	Socket socket;
-	BufferedOutputStream out;
-	BufferedInputStream in;
 	boolean connected;
 	int destSoc = 9200;
 	String address = "mirror.etown.edu";
+	
+    // Connection info: native socket handle
+    private Socket socket;
+
+    // Read stream
+    private BufferedOutputStream out;
+	
+    private int packetInfo[]= new int[5];
+    private byte[] packet;
+
+    // Write stream
+    private BufferedInputStream in;;
 	
 	Connection(){
 		connected = false;
@@ -65,15 +74,7 @@ public class Connection extends AsyncTask<Void, Void, Void> implements Runnable 
 		
 		while(true)
 		{
-			try {
-				Object o = in.readObject();
-			} catch (OptionalDataException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			
 			
 		}
 	}
