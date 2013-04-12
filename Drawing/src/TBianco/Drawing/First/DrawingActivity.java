@@ -40,7 +40,12 @@ public class DrawingActivity extends Activity {
         drawingArea = (MySurface)findViewById(R.id.drawingArea);
         pageTracker = (TextView) findViewById(R.id.pageTracker);
         
-		connection = new Connection();
+		try {
+			connection = new Connection();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
     }
     

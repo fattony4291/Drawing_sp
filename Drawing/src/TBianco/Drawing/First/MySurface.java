@@ -131,6 +131,7 @@ public class MySurface extends View {
 		// mPath.reset();
 		currentPage.add(new Line(currentSize, currentColor, new Path(mPath),currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE:LineType.TYPE_SOLID));
 		mPath.reset();
+	
 	}
 	
 	private void scroll_start(float x, float y)
