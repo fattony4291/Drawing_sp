@@ -124,7 +124,7 @@ public class DrawingActivity extends Activity {
     
     public void connectClick(View view)
     {
-    	connection.execute();
+    	connection.execute(this);
     }
     
     public void homeClick(View view)

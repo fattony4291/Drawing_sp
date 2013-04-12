@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class Connection extends AsyncTask<Void, Void, Void> implements Runnable {
+public class Connection extends AsyncTask<DrawingActivity, Void, Void> implements Runnable {
 	
 	//Packet Info
     private static final int PACKET_TYPE_HDR = 0;
@@ -151,12 +151,9 @@ public class Connection extends AsyncTask<Void, Void, Void> implements Runnable 
 
 	}
 	
-	private void processPacket(byte[] _packet, int[] _packetInfo) throws IOException{
+	private void processPacket(DrawingActivity act, byte[] _packet, int[] _packetInfo) throws IOException{
         byte[] rawPacket = _packet;
         int[] info = _packetInfo;
-
-        boolean forward = false;
-        boolean sendToHost = false;
 
         String temp;
         String roomName;
@@ -168,7 +165,7 @@ public class Connection extends AsyncTask<Void, Void, Void> implements Runnable 
         case TEXT_MSG:
         case SHAPE_MSG:
         case UNDO_MSG:
-                forward = true;
+               
                 break;
         case CLEAR_MSG:
         case CLEAR_ALL_MSG:
@@ -181,19 +178,19 @@ public class Connection extends AsyncTask<Void, Void, Void> implements Runnable 
         case DELETE_PAGE_MSG:
                 break;
         case REFRESH_PAGE_REQUEST_MSG:
-                sendToHost = true;
+                
                 break;
         case REFRESH_PAGE_MSG:
-                forward = true;
+                
                 break;
         
         case REDO_MSG:
-                forward = true;
+                
                 break;
 
         
         case DELETE_MSG:
-                forward = true;
+                
                 break;
 
         }
@@ -250,9 +247,11 @@ public class Connection extends AsyncTask<Void, Void, Void> implements Runnable 
 	}
 
 	@Override
-	protected Void doInBackground(Void... params) {
+	protected Void doInBackground(DrawingActivity... params) {
 		run();
 		return null;
 	}
+
+
 
 }
