@@ -17,7 +17,7 @@ import android.view.View;
 
 public class MySurface extends View {
 
-	private Path mPath;
+	private CustomPath mPath;
 	private Paint mPaint;
 	private List<ArrayList<Line>> pageList;
 	private Deque<Line> undoStack;
@@ -29,6 +29,8 @@ public class MySurface extends View {
 	private boolean redoable = false;
 	private Mode currentMode = Mode.DRAW_MODE;
 	private ArrayList<Line> currentPage;
+	public DrawingActivity act;
+	private int userID = (int)(Math.random() * 1000);
 	
 	
 	public int pageCount = 1;
@@ -54,7 +56,7 @@ public class MySurface extends View {
 	}
 
 	private void init() {
-		mPath = new Path();
+		mPath = new CustomPath();
 		pageList = new ArrayList<ArrayList<Line>>();
 		pageList.add( new ArrayList<Line>());
 		currentPage=pageList.get(currentPageCount);
@@ -129,7 +131,7 @@ public class MySurface extends View {
 		// mCanvas.drawPath(mPath, mPaint);
 		// kill this so we don't double draw
 		// mPath.reset();
-		currentPage.add(new Line(currentSize, currentColor, new Path(mPath),currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE:LineType.TYPE_SOLID));
+		currentPage.add(new Line(currentSize, currentColor, new CustomPath(mPath),currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE:LineType.TYPE_SOLID, userID));
 		mPath.reset();
 	
 	}
@@ -277,6 +279,20 @@ public class MySurface extends View {
 		currentPage = pageList.get(currentPageCount);
 		
 		invalidate();
+	}
+	
+	public void addLine(Line line, int page)
+	{
+		Line x;
+		for(int i=0; i < pageList.get(page).size(); i++)
+		{
+			x = pageList.get(page).get(i);
+			if(x.lineID == line.lineID && x.userID == line.userID){
+				pageList.get(page).set(i,line);
+				return;
+			}
+		}
+		pageList.get(page).add(line);
 	}
 
 }

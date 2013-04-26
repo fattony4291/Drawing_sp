@@ -114,7 +114,7 @@ public class Connection extends AsyncTask<DrawingActivity, Void, Void> implement
                              }
 
                              //process packet to correct client
-                             processPacket(packet,packetInfo);
+                             //processPacket(packet,packetInfo);
 
                              if (packetInfo[PACKET_TYPE_HDR] == NEW_HOST_MSG){
                                      //If packet type is this, it means the new host was told they are the new host and this connection can be closed.
@@ -213,6 +213,19 @@ public class Connection extends AsyncTask<DrawingActivity, Void, Void> implement
 
         //flush
         buffOut.flush();
+	}
+	
+	public void sendLine(Line netLine, int page)
+	{
+		
+		int[] header = new int[5];
+		
+		header[0] = LINE_MSG;
+		header[1] = 1;//size
+		header[2] = netLine.userID;//client id
+		header[3] = page;// page id
+		header[4] = netLine.lineID;//line id
+		
 	}
 	
 	public void close(){

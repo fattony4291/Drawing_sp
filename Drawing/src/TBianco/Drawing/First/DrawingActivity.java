@@ -38,6 +38,7 @@ public class DrawingActivity extends Activity {
         
         setContentView(R.layout.main);
         drawingArea = (MySurface)findViewById(R.id.drawingArea);
+        drawingArea.act = this;
         pageTracker = (TextView) findViewById(R.id.pageTracker);
         
 		try {
@@ -49,7 +50,16 @@ public class DrawingActivity extends Activity {
 		
     }
     
-   
+    public void addLine(Line netLine, int page)
+    {
+    	drawingArea.addLine(netLine, page);
+    }
+    
+    public void sendLine(Line line, int page)
+    {
+    	
+    	connection.sendLine(line, page);
+    }
    
     private void changeColor(int newColor)
     {

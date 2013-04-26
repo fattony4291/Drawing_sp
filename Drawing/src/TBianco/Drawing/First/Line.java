@@ -9,34 +9,35 @@ import android.graphics.PorterDuffXfermode;
 import android.util.Log;
 
 public class Line {
-	Path path;
+	CustomPath path;
 	int color;
 	float size;
 	int lineID;
 	int userID;
 	LineType type;
+	private int lineCount=0;
 	
 	Line()
 	{
 		color=Color.BLACK;
 		size=12;
-		lineID=-1;
+		lineID=lineCount++;
 		userID=-1;
 		type=LineType.TYPE_SOLID;
-		path= new Path();
+		path= new CustomPath();
 	}
 	
-	Line(float lSize, int lColor,Path lPath,LineType lType)
+	Line(float lSize, int lColor,CustomPath lPath,LineType lType, int uid)
 	{
 		color=lColor;
 		size=lSize;
-		lineID=-1;
-		userID=-1;
+		lineID=lineCount++;
+		userID=uid;
 		path= lPath;
 		type=lType;
 	}
 	
-	Line(float lSize, int lColor,Path lPath, LineType lType,int uid, int lid)
+	Line(float lSize, int lColor,CustomPath lPath, LineType lType,int uid, int lid)
 	{
 		color= lColor;
 		size= lSize;
