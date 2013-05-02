@@ -110,7 +110,8 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="@color/orange"
-            android:contentDescription="@string/Color" />
+            android:contentDescription="@string/Color"
+            android:onClick="colorPickerClick" />
 
         <Space
             android:layout_width="5dp"

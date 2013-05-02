@@ -294,5 +294,10 @@ public class MySurface extends View {
 		}
 		pageList.get(page).add(line);
 	}
+	
+	public void setColor(int color)
+	{
+		currentColor = color;
+	}
 
 }

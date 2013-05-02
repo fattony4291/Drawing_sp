@@ -2,7 +2,6 @@ package TBianco.Drawing.First;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,16 +14,20 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 
 
-public class DrawingActivity extends Activity {
+public class DrawingActivity extends Activity
+implements ColorPickerDialog.OnColorChangedListener {
 
 	private MySurface drawingArea;
     private Connection connection;
     private TextView pageTracker;
+    private ImageButton colorButton;
+    private int currentColor=0xFF000000;
     
     /** Called when the activity is first created. */
     @Override
@@ -40,6 +43,8 @@ public class DrawingActivity extends Activity {
         drawingArea = (MySurface)findViewById(R.id.drawingArea);
         drawingArea.act = this;
         pageTracker = (TextView) findViewById(R.id.pageTracker);
+        colorButton = (ImageButton) findViewById(R.id.btnColor);
+        colorButton.setBackgroundColor(currentColor);
         
 		try {
 			connection = new Connection();
@@ -55,17 +60,12 @@ public class DrawingActivity extends Activity {
     	drawingArea.addLine(netLine, page);
     }
     
-    public void sendLine(Line line, int page)
+    public void sendLine(Line line, int page) throws IOException
     {
     	
     	connection.sendLine(line, page);
     }
    
-    private void changeColor(int newColor)
-    {
-
-    }
-    
     public void undoClick(View view)
     {
     	drawingArea.undo();
@@ -79,6 +79,11 @@ public class DrawingActivity extends Activity {
     public void deleteClick(View view)
     {
     	drawingArea.delete();    	
+    }
+    
+    public void colorPickerClick(View view)
+    {
+    	new ColorPickerDialog(this, this, currentColor).show();
     }
     
     public void sizeChangeClick(View view)
@@ -164,5 +169,12 @@ public class DrawingActivity extends Activity {
     {
     	pageTracker.setText(drawingArea.currentPageCount + 1 + "/" + drawingArea.pageCount);
     }
+
+	@Override
+	public void colorChanged(int color) {
+		currentColor=color;
+		drawingArea.setColor(color);
+		colorButton.setBackgroundColor(currentColor);
+	}
 }
 

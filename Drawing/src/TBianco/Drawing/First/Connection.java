@@ -2,16 +2,16 @@ package TBianco.Drawing.First;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OptionalDataException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-public class Connection extends AsyncTask<DrawingActivity, Void, Void> implements Runnable {
+public class Connection extends AsyncTask<DrawingActivity, Void, Void> {
 	
 	//Packet Info
     private static final int PACKET_TYPE_HDR = 0;
@@ -79,8 +79,8 @@ public class Connection extends AsyncTask<DrawingActivity, Void, Void> implement
 		
 	}
 
-	@Override
-	public void run() {
+	//@Override
+	public void run(DrawingActivity act) {
 		 while(true){//!socket.isClosed()                        
 
              try{
@@ -114,7 +114,7 @@ public class Connection extends AsyncTask<DrawingActivity, Void, Void> implement
                              }
 
                              //process packet to correct client
-                             //processPacket(packet,packetInfo);
+                             processPacket(act,packet,packetInfo);
 
                              if (packetInfo[PACKET_TYPE_HDR] == NEW_HOST_MSG){
                                      //If packet type is this, it means the new host was told they are the new host and this connection can be closed.
@@ -215,16 +215,29 @@ public class Connection extends AsyncTask<DrawingActivity, Void, Void> implement
         buffOut.flush();
 	}
 	
-	public void sendLine(Line netLine, int page)
+	public void sendLine(Line netLine, int page) throws IOException
 	{
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = null;
+		byte[] bytes;
+		try {
+		  out = new ObjectOutputStream(bos);   
+		  out.writeObject(netLine);
+		  bytes = bos.toByteArray();
+		} finally {
+		  out.close();
+		  bos.close();
+		}
 		
 		int[] header = new int[5];
 		
 		header[0] = LINE_MSG;
-		header[1] = 1;//size
+		header[1] = bytes.length;//size
 		header[2] = netLine.userID;//client id
 		header[3] = page;// page id
 		header[4] = netLine.lineID;//line id
+		
+		sendPacket(bytes,header);
 		
 	}
 	
@@ -261,7 +274,7 @@ public class Connection extends AsyncTask<DrawingActivity, Void, Void> implement
 
 	@Override
 	protected Void doInBackground(DrawingActivity... params) {
-		run();
+		run(params[0]);
 		return null;
 	}
 
