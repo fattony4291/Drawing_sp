@@ -1,19 +1,14 @@
 package TBianco.Drawing.First;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
+
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
-import android.graphics.Canvas;
-import android.graphics.EmbossMaskFilter;
-import android.graphics.MaskFilter;
-import android.graphics.Paint;
-import android.graphics.Path;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.*;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -21,7 +16,7 @@ import android.widget.TextView;
 
 
 public class DrawingActivity extends Activity
-implements ColorPickerDialog.OnColorChangedListener {
+implements ColorPickerDialog.OnColorChangedListener, DeleteDialog.onDeleteSelectListener {
 
 	private MySurface drawingArea;
     private Connection connection;
@@ -45,13 +40,13 @@ implements ColorPickerDialog.OnColorChangedListener {
         pageTracker = (TextView) findViewById(R.id.pageTracker);
         colorButton = (ImageButton) findViewById(R.id.btnColor);
         colorButton.setBackgroundColor(currentColor);
-        
-		try {
-			connection = new Connection();
+
+		/*try {
+			//connection = new Connection();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
     }
     
@@ -63,7 +58,7 @@ implements ColorPickerDialog.OnColorChangedListener {
     public void sendLine(Line line, int page) throws IOException
     {
     	
-    	connection.sendLine(line, page);
+    	//connection.sendLine(line, page);
     }
    
     public void undoClick(View view)
@@ -78,8 +73,41 @@ implements ColorPickerDialog.OnColorChangedListener {
     
     public void deleteClick(View view)
     {
-    	drawingArea.delete();    	
+    	   	//new DeleteDialog(this,this).show();
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	
+    	builder.setTitle(R.string.DeleteTitle)
+		.setMessage(R.string.DeleteTitle)
+		.setPositiveButton(R.string.All,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						deleteSelect(true);
+					}
+				})
+		.setNegativeButton(R.string.Single,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						deleteSelect(false);
+					}
+				});
+    	
+    	AlertDialog alert = builder.create();
+    	alert.show();
     }
+    
+	@Override
+	public void deleteSelect(boolean select) {
+		if(select)//delete all pages
+		{
+			drawingArea.deleteAll();
+			updatePageTracker();
+		}
+		else// delete only current lines
+		{
+			drawingArea.delete();
+		}
+		
+	}
     
     public void colorPickerClick(View view)
     {
@@ -139,7 +167,7 @@ implements ColorPickerDialog.OnColorChangedListener {
     
     public void connectClick(View view)
     {
-    	connection.execute(this);
+    	//connection.execute(this);
     }
     
     public void homeClick(View view)
@@ -176,5 +204,7 @@ implements ColorPickerDialog.OnColorChangedListener {
 		drawingArea.setColor(color);
 		colorButton.setBackgroundColor(currentColor);
 	}
+
+
 }
 

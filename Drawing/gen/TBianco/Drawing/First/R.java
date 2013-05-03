@@ -116,10 +116,13 @@ public final class R {
     }
     public static final class string {
         public static final int Add=0x7f050011;
+        public static final int All=0x7f050018;
         public static final int AppName=0x7f050013;
         public static final int Color=0x7f050012;
         public static final int Connection=0x7f05000d;
         public static final int Delete=0x7f050007;
+        public static final int DeleteBody=0x7f050017;
+        public static final int DeleteTitle=0x7f050016;
         public static final int Grid=0x7f050009;
         public static final int Help=0x7f05000e;
         public static final int Home=0x7f05000c;
@@ -130,6 +133,7 @@ public final class R {
         public static final int Previous=0x7f05000f;
         public static final int Redo=0x7f05000b;
         public static final int Save=0x7f050006;
+        public static final int Single=0x7f050019;
         public static final int Sm=0x7f050003;
         public static final int Test=0x7f050002;
         public static final int Undo=0x7f05000a;

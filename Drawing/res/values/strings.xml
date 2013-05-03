@@ -23,4 +23,8 @@
 	<string name="AppName">DrawingApp</string>
 	<string name="pagecounter">1/1</string>
 	<string name="pages">Displays the current page and number of pages.</string>
+	<string name="DeleteTitle">Delete?</string>
+	<string name="DeleteBody">Delete all pages or only one?</string>
+	<string name="All">All Pages</string>
+	<string name="Single">This Page</string>
 </resources>

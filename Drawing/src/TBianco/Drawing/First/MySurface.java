@@ -30,12 +30,10 @@ public class MySurface extends View {
 	private Mode currentMode = Mode.DRAW_MODE;
 	private ArrayList<Line> currentPage;
 	public DrawingActivity act;
-	private int userID = (int)(Math.random() * 1000);
-	
-	
+	private int userID = (int) (Math.random() * 1000);
+
 	public int pageCount = 1;
 	public int currentPageCount = 0;
-	
 
 	public MySurface(Context c) {
 		super(c);
@@ -58,8 +56,8 @@ public class MySurface extends View {
 	private void init() {
 		mPath = new CustomPath();
 		pageList = new ArrayList<ArrayList<Line>>();
-		pageList.add( new ArrayList<Line>());
-		currentPage=pageList.get(currentPageCount);
+		pageList.add(new ArrayList<Line>());
+		currentPage = pageList.get(currentPageCount);
 		undoStack = new LinkedList<Line>();
 		count = 0;
 		mPaint = new Paint();
@@ -76,7 +74,7 @@ public class MySurface extends View {
 	private void resetPaint() {
 		mPaint.setColor(currentColor);
 		mPaint.setStrokeWidth(currentSize);
-		if(currentMode != Mode.ERASE_MODE )
+		if (currentMode != Mode.ERASE_MODE)
 			mPaint.setXfermode(null);
 	}
 
@@ -106,9 +104,11 @@ public class MySurface extends View {
 
 	private float mX, mY;
 	private static final float TOUCH_TOLERANCE = 4;
-	private float previousX,previousY;
+	private float previousX, previousY;
 
 	private void touch_start(float x, float y) {
+		previousX = x;
+		previousY = y;
 		mPath.reset();
 		mPath.moveTo(x - dx, y - dy);
 		mX = x - dx;
@@ -116,6 +116,8 @@ public class MySurface extends View {
 	}
 
 	private void touch_move(float x, float y) {
+		previousX = x;
+		previousY = y;
 		float dxt = Math.abs(x - dx - mX);
 		float dyt = Math.abs(y - dy - mY);
 		if (dxt >= TOUCH_TOLERANCE || dyt >= TOUCH_TOLERANCE) {
@@ -131,59 +133,73 @@ public class MySurface extends View {
 		// mCanvas.drawPath(mPath, mPaint);
 		// kill this so we don't double draw
 		// mPath.reset();
-		currentPage.add(new Line(currentSize, currentColor, new CustomPath(mPath),currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE:LineType.TYPE_SOLID, userID));
+		currentPage.add(new Line(currentSize, currentColor, new CustomPath(
+				mPath), currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE
+				: LineType.TYPE_SOLID, userID));
 		mPath.reset();
-	
+
 	}
-	
-	private void scroll_start(float x, float y)
-	{
-		previousX = x;
-		previousY = y;
-	}
-	
-	private void scroll_move(float x, float y)
-	{
-		dx += x - previousX;
-		dy += y - previousY;
-		
+
+	private void scroll_start(float x, float y) {
 		previousX = x;
 		previousY = y;
 	}
 
+	private void scroll_move(float x, float y) {
+		dx += x - previousX;
+		dy += y - previousY;
+
+		previousX = x;
+		previousY = y;
+	}
+
+	boolean scrollEntered = false;
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		float x = event.getX();
-		float y = event.getY();
+		float x = event.getX(0);
+		float y = event.getY(0);
 
 		if (redoable) {
 			redoable = false;
 			undoStack.clear();
 		}
 
+		int pointerCount = event.getPointerCount();
+
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			if(currentMode == Mode.DRAW_MODE)
+			if (currentMode == Mode.DRAW_MODE && pointerCount == 1)
 				touch_start(x, y);
-			else if(currentMode == Mode.SCROLL_MODE)
-				scroll_start(x,y);
+			else if (currentMode == Mode.SCROLL_MODE) {
+				scrollEntered = true;
+				scroll_start(x, y);
+			}
 			invalidate();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			if(currentMode == Mode.DRAW_MODE)
+			if (currentMode == Mode.DRAW_MODE && pointerCount == 1
+					&& !scrollEntered)
 				touch_move(x, y);
-			else if(currentMode == Mode.SCROLL_MODE)
-				scroll_move(x,y);
+			else if (currentMode == Mode.SCROLL_MODE || pointerCount > 1
+					|| scrollEntered) {
+				scrollEntered = true;
+				scroll_move(x, y);
+			}
 			invalidate();
 			break;
 		case MotionEvent.ACTION_UP:
-			if(currentMode == Mode.DRAW_MODE)
+			scrollEntered = false;
+			if (currentMode == Mode.DRAW_MODE && pointerCount == 1
+					&& !scrollEntered)
 				touch_up();
-			else if(currentMode == Mode.SCROLL_MODE)
-				scroll_move(x,y);
+			else if (currentMode == Mode.SCROLL_MODE || pointerCount > 1
+					|| scrollEntered)
+				scroll_move(x, y);
 			invalidate();
 			break;
 		}
+
 		return true;
 	}
 
@@ -195,6 +211,19 @@ public class MySurface extends View {
 
 	public void delete() {
 		currentPage.clear();
+		invalidate();
+	}
+
+	public void deleteAll() {
+		pageCount = 1;
+		currentPageCount = 0;
+
+		redoable = false;
+		undoStack.clear();
+
+		pageList.clear();
+		pageList.add(currentPage = new ArrayList<Line>());
+
 		invalidate();
 	}
 
@@ -219,84 +248,74 @@ public class MySurface extends View {
 		dy = 0;
 		invalidate();
 	}
-	
-	public void changeMode(Mode to)
-	{
-		Log.d("ModeChange","Changed mode to " + to);
+
+	public void changeMode(Mode to) {
+		Log.d("ModeChange", "Changed mode to " + to);
 		currentMode = to;
-		if (to == Mode.ERASE_MODE)
-		{
+		if (to == Mode.ERASE_MODE) {
 			mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-		}
-		else
-		{
+		} else {
 			mPaint.setXfermode(null);
 		}
 	}
-	
-	public void previousPage()
-	{
-		if(currentPageCount > 0)
+
+	public void previousPage() {
+		if (currentPageCount > 0)
 			currentPageCount--;
-			
+
 		if (redoable) {
 			redoable = false;
 			undoStack.clear();
 		}
-		
+
 		currentPage = pageList.get(currentPageCount);
 
 		invalidate();
 	}
-	
-	public void nextPage()
-	{
-		if(currentPageCount < pageCount -1)
+
+	public void nextPage() {
+		if (currentPageCount < pageCount - 1)
 			currentPageCount++;
-		
+
 		if (redoable) {
 			redoable = false;
 			undoStack.clear();
 		}
-		
+
 		currentPage = pageList.get(currentPageCount);
 
 		invalidate();
 	}
-	
-	public void addPage()
-	{
+
+	public void addPage() {
 		pageCount++;
 		currentPageCount = pageCount - 1;
-		
+
 		pageList.add(new ArrayList<Line>());
-		
+
 		if (redoable) {
 			redoable = false;
 			undoStack.clear();
 		}
-		
+
 		currentPage = pageList.get(currentPageCount);
-		
+
 		invalidate();
 	}
-	
-	public void addLine(Line line, int page)
-	{
+
+	public void addLine(Line line, int page) {
 		Line x;
-		for(int i=0; i < pageList.get(page).size(); i++)
-		{
+		for (int i = 0; i < pageList.get(page).size(); i++) {
 			x = pageList.get(page).get(i);
-			if(x.lineID == line.lineID && x.userID == line.userID){
-				pageList.get(page).set(i,line);
+			if (x.lineID == line.lineID && x.userID == line.userID) {
+				pageList.get(page).set(i, line);
 				return;
 			}
 		}
 		pageList.get(page).add(line);
 	}
-	
-	public void setColor(int color)
-	{
+
+	public void setColor(int color) {
 		currentColor = color;
 	}
 
