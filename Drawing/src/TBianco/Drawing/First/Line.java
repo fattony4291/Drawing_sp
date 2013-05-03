@@ -52,13 +52,14 @@ public class Line {
 		
 		if (type == LineType.TYPE_ERASE){
 			//paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-			//Log.d("Erase.", "Set erase style");
+			Log.d("Erase.", "Set erase style");
 			paint.setColor(Color.WHITE);
 		}
 		else {
-		paint.setColor(color);
-		paint.setStrokeWidth(size);
+			paint.setColor(color);
+			Log.d("Draw.", "Set Draw style");
 		}
+		paint.setStrokeWidth(size);
 		canvas.drawPath(path,paint);
 		
 	}

@@ -5,6 +5,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Canvas;
@@ -72,10 +73,11 @@ public class MySurface extends View {
 	}
 
 	private void resetPaint() {
-		mPaint.setColor(currentColor);
-		mPaint.setStrokeWidth(currentSize);
 		if (currentMode != Mode.ERASE_MODE)
-			mPaint.setXfermode(null);
+			mPaint.setColor(currentColor);
+		else
+			mPaint.setColor(Color.WHITE);
+		mPaint.setStrokeWidth(currentSize);
 	}
 
 	@Override
@@ -136,7 +138,7 @@ public class MySurface extends View {
 		currentPage.add(new Line(currentSize, currentColor, new CustomPath(
 				mPath), currentMode == Mode.ERASE_MODE ? LineType.TYPE_ERASE
 				: LineType.TYPE_SOLID, userID));
-		mPath.reset();
+		 mPath.reset();
 
 	}
 
@@ -169,7 +171,7 @@ public class MySurface extends View {
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			if (currentMode == Mode.DRAW_MODE && pointerCount == 1)
+			if (currentMode == Mode.DRAW_MODE || currentMode == Mode.ERASE_MODE && pointerCount == 1)
 				touch_start(x, y);
 			else if (currentMode == Mode.SCROLL_MODE) {
 				scrollEntered = true;
@@ -178,7 +180,7 @@ public class MySurface extends View {
 			invalidate();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			if (currentMode == Mode.DRAW_MODE && pointerCount == 1
+			if (currentMode == Mode.DRAW_MODE || currentMode == Mode.ERASE_MODE && pointerCount == 1
 					&& !scrollEntered)
 				touch_move(x, y);
 			else if (currentMode == Mode.SCROLL_MODE || pointerCount > 1
@@ -190,7 +192,7 @@ public class MySurface extends View {
 			break;
 		case MotionEvent.ACTION_UP:
 			scrollEntered = false;
-			if (currentMode == Mode.DRAW_MODE && pointerCount == 1
+			if (currentMode == Mode.DRAW_MODE || currentMode == Mode.ERASE_MODE && pointerCount == 1
 					&& !scrollEntered)
 				touch_up();
 			else if (currentMode == Mode.SCROLL_MODE || pointerCount > 1
@@ -252,11 +254,6 @@ public class MySurface extends View {
 	public void changeMode(Mode to) {
 		Log.d("ModeChange", "Changed mode to " + to);
 		currentMode = to;
-		if (to == Mode.ERASE_MODE) {
-			mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-		} else {
-			mPaint.setXfermode(null);
-		}
 	}
 
 	public void previousPage() {
